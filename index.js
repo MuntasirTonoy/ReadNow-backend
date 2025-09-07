@@ -8,7 +8,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("hello server");
-});
+})
 
 app.listen(port, () => {
   console.log(`server connected on port : ${port}`);
