@@ -3,8 +3,6 @@ const express = require("express");
 const cors = require("cors");
 
 require("dotenv").config({ path: ".env.local" });
-console.log("DB_USER:", process.env.DB_USER);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,9 +32,24 @@ async function run() {
       const books = await booksCollection.find().toArray();
       res.send(books);
     });
+  
+  // specific book details
+app.get("/books/:id", async (req, res) => {
+  const id = req.params.id;
 
-  //specific book details
-    app.post("/books", async (req, res) => {
+  try {
+    const book = await booksCollection.findOne({ _id: new ObjectId(id) });
+    if (!book) {
+      return res.status(404).send({ message: "Book not found!" });
+    }
+    res.send(book);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Server Error" });
+  }
+});
+
+     app.post("/books", async (req, res) => {
       const newBook = req.body;
       const result = await booksCollection.insertOne(newBook);
       res.send(result);
