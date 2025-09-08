@@ -2,8 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+require("dotenv").config({ path: ".env.local" });
+console.log("DB_USER:", process.env.DB_USER);
+console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors());
@@ -24,6 +26,22 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    const db = client.db("readNowDB");
+    const booksCollection = db.collection("books");
+
+  //browse page er jonno books pawar api
+    app.get("/books", async (req, res) => {
+      const books = await booksCollection.find().toArray();
+      res.send(books);
+    });
+
+  //specific book details
+    app.post("/books", async (req, res) => {
+      const newBook = req.body;
+      const result = await booksCollection.insertOne(newBook);
+      res.send(result);
+    });
+
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     // Send a ping to confirm a successful connection
