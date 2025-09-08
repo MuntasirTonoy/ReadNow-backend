@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +18,14 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuntasirTonoy/ReadNow-backend.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MuntasirTonoy/ReadNow-backend/issues"
+  },
+  "homepage": "https://github.com/MuntasirTonoy/ReadNow-backend#readme"
 }
